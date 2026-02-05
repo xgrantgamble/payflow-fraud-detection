@@ -67,3 +67,5 @@ scripts/data/
 scripts/output/
 scripts/sql/
 scripts/__pycache__/
+
+testingcsv.py
