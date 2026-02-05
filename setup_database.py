@@ -12,10 +12,9 @@ import sys
 import os
 from dotenv import load_dotenv
 
-# Load environment variables
 load_dotenv()
 
-# Get project paths
+# Project paths
 SCRIPT_DIR = Path(__file__).parent.absolute()
 PROJECT_ROOT = SCRIPT_DIR
 DATA_DIR = PROJECT_ROOT / 'data'
@@ -29,12 +28,11 @@ DB_NAME = os.getenv('DB_NAME', 'payflow_commerce')
 DB_USER = os.getenv('DB_USER', 'postgres')
 DB_PASSWORD = os.getenv('DB_PASSWORD', '')
 
-# Create database connection string
 DATABASE_URL = f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
 
 def run_sql_file(engine, sql_file):
     """Execute SQL commands from a file"""
-    print(f"\n📄 Executing {sql_file.name}...")
+    print(f"\nExecuting {sql_file.name}...")
     
     with open(sql_file, 'r') as f:
         sql_commands = f.read()
@@ -47,14 +45,14 @@ def run_sql_file(engine, sql_file):
             try:
                 conn.execute(text(command))
                 conn.commit()
-                print(f"   ✅ Command {i} executed successfully")
+                print(f"   Command {i} executed successfully")
             except Exception as e:
-                print(f"   ⚠️  Command {i} error: {e}")
+                print(f"   Command {i} error: {e}")
                 continue
 
 def load_csv_to_table(engine, csv_path, table_name):
     """Load CSV file into PostgreSQL table"""
-    print(f"\n📊 Loading {csv_path.name} into {table_name}...")
+    print(f"\nLoading {csv_path.name} into {table_name}...")
     
     try:
         # Read CSV
@@ -63,16 +61,16 @@ def load_csv_to_table(engine, csv_path, table_name):
         
         # Load to database
         df.to_sql(table_name, engine, if_exists='append', index=False)
-        print(f"   ✅ Successfully loaded {len(df)} rows into {table_name}")
+        print(f"   Successfully loaded {len(df)} rows into {table_name}")
         
         return True
     except Exception as e:
-        print(f"   ❌ Error loading {table_name}: {e}")
+        print(f"   Error loading {table_name}: {e}")
         return False
 
 def verify_data(engine):
     """Verify data was loaded correctly"""
-    print("\n🔍 Verifying data...")
+    print("\nVerifying data...")
     
     verification_queries = [
         ("products", "SELECT COUNT(*) as count FROM products"),
@@ -87,7 +85,7 @@ def verify_data(engine):
                 count = result[0]
                 print(f"   {table}: {count:,} rows")
             except Exception as e:
-                print(f"   ❌ {table}: Error - {e}")
+                print(f"   {table}: Error - {e}")
 
 def main():
     """Main setup function"""
@@ -96,29 +94,29 @@ def main():
     print("="*60)
     
     # Verify environment
-    print("\n🔍 Checking environment...")
+    print("\nChecking environment...")
     print(f"   Project root: {PROJECT_ROOT}")
     print(f"   Data directory: {RAW_DATA_DIR}")
     print(f"   Database: {DB_NAME}")
     print(f"   Host: {DB_HOST}:{DB_PORT}")
     
     if not DB_PASSWORD:
-        print("\n❌ ERROR: DB_PASSWORD not set in .env file")
-        print("\n💡 Make sure you have a .env file with:")
+        print("\nERROR: DB_PASSWORD not set in .env file")
+        print("\nMake sure you have a .env file with:")
         print("   DB_PASSWORD=your_password")
         return
     
-    # Step 1: Connect to database
-    print("\n🔌 Connecting to PostgreSQL...")
+    # Connect to database
+    print("\nConnecting to PostgreSQL...")
     try:
         engine = create_engine(DATABASE_URL)
         # Test connection
         with engine.connect() as conn:
             conn.execute(text("SELECT 1"))
-        print("   ✅ Connection successful")
+        print("   Connection successful")
     except Exception as e:
-        print(f"   ❌ Connection failed: {e}")
-        print("\n💡 Make sure:")
+        print(f"   Connection failed: {e}")
+        print("\nMake sure:")
         print("   1. PostgreSQL is running")
         print("   2. .env file has correct credentials")
         print(f"   3. Database '{DB_NAME}' exists")
@@ -126,7 +124,7 @@ def main():
         print(f"   psql -U {DB_USER} -c 'CREATE DATABASE {DB_NAME};'")
         return
     
-    # Step 2: Run schema SQL
+    # Run schema SQL
     print("\n" + "="*60)
     print("Creating Database Schema")
     print("="*60)
@@ -135,11 +133,11 @@ def main():
     if schema_file.exists():
         run_sql_file(engine, schema_file)
     else:
-        print(f"\n⚠️  Schema file not found: {schema_file}")
+        print(f"\nSchema file not found: {schema_file}")
         print("   Skipping schema creation")
         print("   Looking for file at:", schema_file.absolute())
     
-    # Step 3: Load raw data
+    # Load raw data
     print("\n" + "="*60)
     print("Loading Raw Data")
     print("="*60)
@@ -157,10 +155,10 @@ def main():
             if load_csv_to_table(engine, csv_path, table_name):
                 success_count += 1
         else:
-            print(f"\n⚠️  File not found: {csv_path}")
+            print(f"\nFile not found: {csv_path}")
             print(f"   Expected location: {csv_path.absolute()}")
     
-    # Step 4: Verify
+    # Verify
     print("\n" + "="*60)
     print("Verification")
     print("="*60)
@@ -170,18 +168,18 @@ def main():
     print("\n" + "="*60)
     print("Setup Complete")
     print("="*60)
-    print(f"✅ {success_count}/{len(data_files)} tables loaded successfully")
+    print(f"{success_count}/{len(data_files)} tables loaded successfully")
     
     if success_count == len(data_files):
-        print("\n🎉 Database setup successful!")
-        print("\n💡 Next steps:")
+        print("\nDatabase setup successful!")
+        print("\nNext steps:")
         print("   1. Run the Jupyter notebooks:")
         print("      - notebooks/01_data_cleaning.ipynb")
         print("      - notebooks/02_exploratory_analysis.ipynb")
         print("      - notebooks/03_fraud_detection_model.ipynb")
     else:
-        print("\n⚠️  Some files were not loaded. Please check the errors above.")
-        print("\n💡 Make sure your data/raw/ directory contains:")
+        print("\nSome files were not loaded. Please check the errors above.")
+        print("\nMake sure your data/raw/ directory contains:")
         for csv_file, _ in data_files:
             print(f"   - {csv_file}")
 

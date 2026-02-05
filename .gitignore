@@ -61,11 +61,12 @@ logs/
 # Power BI temp files
 *.pbix.tmp
 
-# Project Specific Data/Script Ignores
-scripts/notebooks/
-scripts/data/
-scripts/output/
-scripts/sql/
-scripts/__pycache__/
+# Large Data Files (exclude from repo)
+data/raw/*.csv
+data/processed/*.csv
+
+# Output files (large models)
+output/*.pkl
+output/*.joblib
 
 testingcsv.py

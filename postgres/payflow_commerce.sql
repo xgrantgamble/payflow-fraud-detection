@@ -63,12 +63,20 @@ CREATE TABLE fraud_flagged (
     device_type VARCHAR(20),
     ip_address VARCHAR(50),
 
-    -- New Machine Learning Columns 
-    fraud_prediction INTEGER,    -- 0 for Safe, 1 for Fraud
-    fraud_probability DECIMAL(5, 4) -- Score from 0.0000 to 1.0000
+    -- Engineered Features (from 01_data_cleaning.ipynb)
+    is_weekend INTEGER,
+    is_high_value INTEGER,
+    signup_date DATE,
+    days_since_signup INTEGER,
+    is_new_customer INTEGER,
+    shipping_billing_mismatch INTEGER,
+
+    -- Machine Learning Predictions (from 03_fraud_detection_model.ipynb)
+    fraud_prediction INTEGER,
+    fraud_probability DECIMAL(5, 4)
 );
 
--- Create Indexes 
+-- Create Indexes for fast analysis
 CREATE INDEX idx_ff_date ON fraud_flagged(order_date);
 CREATE INDEX idx_ff_prediction ON fraud_flagged(fraud_prediction);
 CREATE INDEX idx_ff_isfraud ON fraud_flagged(is_fraud);

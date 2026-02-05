@@ -1,3 +1,7 @@
+SELECT COUNT(*) FROM products;
+SELECT COUNT(*) FROM customers;
+SELECT COUNT(*) FROM transactions;
+SELECT COUNT(*) FROM fraud_flagged;
 
 -- Query 1: Revenue by channel with fraud rate
 SELECT 
@@ -60,3 +64,40 @@ FROM fraud_flagged
 WHERE order_date BETWEEN '2024-10-01' AND '2024-12-31'
 GROUP BY order_date
 ORDER BY order_date;
+
+-- Fraud by Device Type
+SELECT 
+    device_type,
+    COUNT(*) as total,
+    SUM(CASE WHEN is_fraud = TRUE THEN 1 ELSE 0 END) as fraud_count,
+    ROUND(100.0 * SUM(CASE WHEN is_fraud = TRUE THEN 1 ELSE 0 END) / COUNT(*), 2) as fraud_pct
+FROM fraud_flagged
+GROUP BY device_type
+ORDER BY fraud_pct DESC;
+
+-- New vs Returning Customer Fraud 
+SELECT 
+    CASE WHEN is_new_customer = 1 THEN 'New' ELSE 'Returning' END as customer_type,
+    COUNT(*) as total,
+    SUM(CASE WHEN is_fraud = TRUE THEN 1 ELSE 0 END) as fraud_count,
+    ROUND(100.0 * SUM(CASE WHEN is_fraud = TRUE THEN 1 ELSE 0 END) / COUNT(*), 2) as fraud_pct
+FROM fraud_flagged
+GROUP BY is_new_customer;
+
+-- Chargeback Analysis
+SELECT 
+    COUNT(*) as total_fraud,
+    SUM(CASE WHEN chargeback_date IS NOT NULL THEN 1 ELSE 0 END) as chargebacks,
+    ROUND(100.0 * SUM(CASE WHEN chargeback_date IS NOT NULL THEN 1 ELSE 0 END) / COUNT(*), 2) as chargeback_pct
+FROM fraud_flagged
+WHERE is_fraud = TRUE;
+
+-- Query 8: Fraud rate by payment method
+SELECT 
+    payment_method,
+    COUNT(*) as total,
+    SUM(CASE WHEN is_fraud = TRUE THEN 1 ELSE 0 END) as fraud_count,
+    ROUND(100.0 * SUM(CASE WHEN is_fraud = TRUE THEN 1 ELSE 0 END) / COUNT(*), 2) as fraud_pct
+FROM fraud_flagged
+GROUP BY payment_method
+ORDER BY fraud_pct DESC;

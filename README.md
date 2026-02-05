@@ -1,4 +1,3 @@
-
 # PayFlow Commerce - Financial Analytics & Fraud Detection System
 
 ![Python](https://img.shields.io/badge/Python-3.11-blue)
@@ -7,69 +6,115 @@
 ![XGBoost](https://img.shields.io/badge/XGBoost-2.0.3-red)
 ![Status](https://img.shields.io/badge/Status-Complete-green)
 
----
+> **End-to-end fraud detection system combining financial modeling, machine learning, and business intelligence to identify fraud patterns and reduce losses by $143K quarterly**
 
-## 📊 Project Overview
-
-**PayFlow Commerce**, a high-volume payment processor, experienced a critical surge in fraud during Q4 2024, with chargebacks reaching **7.03%** (industry benchmark: <1%). The operational team was overwhelmed by false positives while actual fraud went undetected.
-
-This project delivers an **end-to-end analytics solution** combining financial modeling, machine learning, and business intelligence to identify fraud patterns and build an automated detection system.
+![PayFlow Commerce Dashboard](summary\execDashboard.png)  
+_Interactive Power BI dashboard showing Q4 2024 performance metrics_
 
 ---
 
-## 🎯 Business Impact
+## Project Overview
+
+PayFlow Commerce, a high-volume e-commerce payment processor, experienced elevated fraud during Q4 2024, with fraud reaching **7.03% of revenue** (industry benchmark: <1%). Analysis revealed a critical vulnerability: fraud activity **quadrupled on weekends** when the manual review team was offline.
+
+This project delivers an **end-to-end analytics solution** combining SQL analysis, feature engineering, and machine learning to identify fraud patterns and build an automated detection system that catches 74% of fraud cases while maintaining operational feasibility.
+
+---
+
+## Business Impact
 
 ### Key Findings
 
-| Metric | Value | Industry Benchmark |
-|--------|-------|-------------------|
-| **Fraud Rate** | 7.03% | <1% |
-| **Q4 Revenue** | $6.4M | N/A |
-| **Fraud Exposure** | $496K | N/A |
-| **Weekend Fraud Rate** | 13.79% | 3.99% (weekday) |
+| Metric                 | Value  | Context                        |
+| ---------------------- | ------ | ------------------------------ |
+| **Q4 Revenue**         | $7.06M | Strong holiday performance     |
+| **Fraud Rate**         | 7.03%  | Industry benchmark: <1%        |
+| **Fraud Exposure**     | $496K  | Total potential fraud          |
+| **Actual Losses**      | $129K  | Realized fraud impact          |
+| **Weekend Fraud Rate** | 13.79% | vs 3.99% weekday (3.5x higher) |
+| **Net Margin**         | 5.2%   | Reduced from fraud impact      |
 
-### Model Performance
+### Machine Learning Solution
 
-**XGBoost Classifier Results:**
+**XGBoost Classifier Performance:**
 
-| Dataset | Accuracy | Recall | Precision | F1-Score |
-|---------|----------|--------|-----------|----------|
-| **Test Set (20%)** | 89.2% | 41.3% | 11.1% | 17.5% |
-| **Full Dataset** | 80.0% | 74.0% | 17.3% | 28.1% |
+| Dataset            | Accuracy | Recall | Precision | Transactions Flagged |
+| ------------------ | -------- | ------ | --------- | -------------------- |
+| **Test Set (20%)** | 89.2%    | 41.3%  | 11.1%     | 559 (20%)            |
+| **Full Dataset**   | 80.0%    | 74.0%  | 17.3%     | 3,198 (23%)          |
 
-**Financial Impact:**
-- **Fraud Caught:** 555/750 actual fraud cases (74% recall on full dataset)
-- **Projected Quarterly Savings:** $143K (based on test set performance)
-- **Annual Savings Potential:** $572K
+### Financial Impact
+
+| Metric                          | Value                             |
+| ------------------------------- | --------------------------------- |
+| **Fraud Detected**              | 555 of 750 cases (74% recall)     |
+| **Test Set Savings**            | $28,611                           |
+| **Projected Quarterly Savings** | $143,026                          |
+| **Annual Value Creation**       | $572,104                          |
+| **ROI**                         | 1,000% (every $1 spent saves $11) |
+| **Margin Improvement**          | 5.2% > 7.2% (+200 bps)            |
+
+### Income Statement (Q4 2024)
+
+![Income Statement](summary/incomeStatement.png)  
+_Q4 2024 financial performance: $7.06M revenue, $365K net income (5.17% margin)_
 
 ---
 
-## 🔍 Key Insights
+## Key Insights
 
-1. **Weekend Vulnerability:** Fraud spikes **3.5x higher** on weekends (13.79% vs 3.99% weekday rate), exploiting reduced staff coverage
+1. **Weekend Vulnerability (Primary Risk Factor)**
+   - Weekend fraud rate: **13.79%** vs weekday: **3.99%**
+   - Weekend transactions represent 59% of total quarterly fraud (445 of 750 cases)
+   - Root cause: Reduced staff coverage exploited by fraudsters
 
-2. **High-Value Transaction Risk:** Transactions >$500 show **5.1% fraud rate** compared to <1% for transactions under $100
+2. **Transaction Amount Risk**
+   - Orders >$500: **8.55% fraud rate**
+   - Orders <$100: **1.45% fraud rate**
+   - High-value transactions require enhanced verification
 
-3. **Channel Performance:** 
-   - Email acquisition: 0.9% fraud (lowest)
-   - Paid Search: 3.2% fraud (highest)
-   - Social & Organic: ~2% fraud
+![Fraud by Transaction Amount](summary/transactionAmount.png)  
+_High-value transactions (>$500) sustain 8.55% fraud rate vs 1.45% for orders <$100_
 
-4. **New Customer Risk:** Customers <30 days old show **1.5x higher** fraud probability
+3. **Customer Account Age**
+   - New customers (<30 days): **1.5x higher** fraud probability
+   - Account age is a strong predictive feature
+
+4. **Channel Performance**
+   - Fraud distributed evenly across channels (Email, Organic, Social, Paid Search)
+   - Problem is timing, not channel quality
+
+![Fraud by Channel](summary/channel.png)  
+_Fraud rates are consistent across acquisition channels (5-6%), indicating the problem is timing, not channel quality_
+
+5. **Chargeback Patterns**
+   - 90% of fraud results in chargebacks
+   - Confirms detection gaps in current systems
+
+### Fraud & Risk Analysis Dashboard
+
+![Fraud Dashboard](summary/fraudDashboard.png)
+
+**Key Metrics Visualized:**
+
+- Weekend vs Weekday comparison (13.79% vs 3.99%)
+- Category-level fraud rates
+- Model confusion matrix
+- ROI calculations
 
 ---
 
 ## 🛠️ Technical Stack
 
-| Category | Technologies |
-|----------|-------------|
-| **Languages** | Python 3.11, SQL (PostgreSQL) |
-| **Data Processing** | Pandas, NumPy |
-| **Machine Learning** | Scikit-Learn, XGBoost |
-| **Database** | PostgreSQL 18 |
-| **Visualization** | Matplotlib, Seaborn, Power BI |
+| Category               | Technologies                                 |
+| ---------------------- | -------------------------------------------- |
+| **Languages**          | Python 3.11, SQL (PostgreSQL)                |
+| **Data Processing**    | Pandas 2.1.0, NumPy 1.24.3                   |
+| **Machine Learning**   | Scikit-Learn 1.3.0, XGBoost 2.0.3            |
+| **Database**           | PostgreSQL 18, SQLAlchemy 2.0.21             |
+| **Visualization**      | Matplotlib 3.7.2, Seaborn 0.12.2, Power BI   |
 | **Financial Modeling** | Excel (3-Statement Model, Variance Analysis) |
-| **Environment** | python-dotenv, SQLAlchemy |
+| **Environment**        | python-dotenv 1.0.0                          |
 
 ---
 
@@ -78,40 +123,51 @@ This project delivers an **end-to-end analytics solution** combining financial m
 ```
 payflow-fraud-detection/
 ├── data/
-│   ├── raw/                      # Original CSV files (not in repo)
-│   │   ├── products_raw.csv      # 500 products
+│   ├── raw/                      # Generated CSV files (not in repo)
+│   │   ├── products_raw.csv      # 500 products across 5 categories
 │   │   ├── customers_raw.csv     # 10,000 customers
-│   │   └── transactions_raw.csv  # 14,082 transactions
-│   └── processed/                # Cleaned data (not in repo)
-│       ├── transactions_clean.csv
-│       ├── customers_clean.csv
-│       └── fraud_flagged.csv
+│   │   └── transactions_raw.csv  # 14,082 Q4 2024 transactions
+│   └── processed/                # Cleaned data with ML predictions (not in repo)
+│       ├── transactions_clean.csv    # 21 columns (with engineered features)
+│       ├── customers_clean.csv       # Deduplicated customers
+│       └── fraud_flagged.csv         # 23 columns (with ML predictions)
 │
 ├── scripts/
 │   ├── notebooks/
-│   │   ├── 01_data_cleaning.ipynb           # ETL pipeline
-│   │   ├── 02_exploratory_analysis.ipynb    # EDA & visualization
-│   │   └── 03_fraud_detection_model.ipynb   # ML model training
-│   ├── generate_synthetic_data.py           # Data generation script
+│   │   ├── 01_data_cleaning.ipynb           # ETL pipeline & feature engineering
+│   │   ├── 02_exploratory_analysis.ipynb    # EDA with SQL & visualization
+│   │   └── 03_fraud_detection_model.ipynb   # XGBoost model training
+│   ├── generate_synthetic_data.py           # Synthetic data generator
 │   ├── fix_transactions.py                  # Data quality fixes
-│   └── fix_fraudFlag.py                     # Database prep utility
+│   ├── fix_fraudFlag.py                     # Database prep utility
+│   ├── reload_fraud_flagged.py              # Reload ML predictions to PostgreSQL
+│   └── verify_and_cleanup.py                # File verification utility
 │
 ├── postgres/
-│   ├── payflow_commerce.sql      # Database schema
-│   └── analysis_queries.sql      # Analytical SQL queries
+│   ├── payflow_commerce.sql      # Database schema (4 tables + indexes)
+│   └── analytical_queries.sql    # 8 business intelligence queries
 │
 ├── output/                       # Model artifacts (not in repo)
-│   ├── fraud_model.pkl           # Trained XGBoost model
-│   └── scaler.pkl                # Feature scaler
+│   ├── fraud_model.pkl           # Trained XGBoost classifier
+│   └── scaler.pkl                # StandardScaler for features
 │
 ├── excel/
-│   └── financial_model.xlsx      # 3-statement model (not included)
+│   └── financial_model.xlsx      # 3-statement model with variance analysis
 │
-├── powerbi/
-│   └── dashboard.pbix            # Interactive BI dashboard (not included)
+├── powerBI/
+│   └── dashboard.pbix            # Interactive BI dashboard (2 pages)
+│
+├── summary/                    # Executive summary and supporting pngs
+│   ├── execDashboard.png
+│   ├── fraudDashboard.png
+│   ├── incomeStatement.png
+│   ├── varianceAnalysis.png
+│   ├── transactionAmount.png
+│   ├── channel.png
+│   └── executiveSummary.pdf
 │
 ├── .env.example                  # Environment template
-├── .gitignore                    # Git exclusions
+├── .gitignore                    # Git exclusions (data/, output/, .env)
 ├── requirements.txt              # Python dependencies
 ├── setup_database.py             # Automated database setup
 └── README.md                     # This file
@@ -119,24 +175,26 @@ payflow-fraud-detection/
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 
 - Python 3.11+
-- PostgreSQL 12+
+- PostgreSQL 12+ (PostgreSQL 18 recommended)
 - 2GB free disk space
-- Power BI Desktop (optional, for dashboard)
+- Power BI Desktop (optional, for dashboard visualization)
 
 ### Installation
 
 #### 1. Clone the repository
+
 ```bash
-git clone https://github.com/yourusername/payflow-fraud-detection.git
+git clone https://github.com/xgrantgamble/payflow-fraud-detection.git
 cd payflow-fraud-detection
 ```
 
 #### 2. Create virtual environment
+
 ```bash
 python -m venv venv
 
@@ -148,20 +206,22 @@ source venv/bin/activate
 ```
 
 #### 3. Install dependencies
+
 ```bash
 pip install -r requirements.txt
 ```
 
 #### 4. Configure environment variables
+
 ```bash
 # Copy the example file
 cp .env.example .env
 
 # Edit .env with your PostgreSQL credentials
-# Required: DB_PASSWORD
 ```
 
 Example `.env`:
+
 ```env
 DB_HOST=localhost
 DB_PORT=5432
@@ -171,223 +231,117 @@ DB_PASSWORD=your_secure_password
 ```
 
 #### 5. Generate synthetic data
+
 ```bash
 python scripts/generate_synthetic_data.py
 ```
 
 Expected output:
+
 ```
 Starting data generation...
 Generated 500 products
 Generated 10000 customers
-October: Generated 4698 transactions, Revenue: $1,850,183.45
-November: Generated 5301 transactions, Revenue: $2,100,274.89
-December: Generated 6083 transactions, Revenue: $2,450,125.67
+October: Generated 4698 transactions, Revenue: $1,954,516.00
+November: Generated 5301 transactions, Revenue: $2,379,298.00
+December: Generated 6083 transactions, Revenue: $2,722,787.00
 Total transactions generated: 14082
 Total fraud transactions: 750 (5.33%)
 ```
 
 #### 6. Create PostgreSQL database
+
 ```bash
 # Create database (if not exists)
 psql -U postgres -c 'CREATE DATABASE payflow_commerce;'
 ```
 
 #### 7. Run automated database setup
+
 ```bash
 python setup_database.py
 ```
 
-Expected output:
-```
-============================================================
-PayFlow Commerce - Automated Database Setup
-============================================================
-
-🔍 Checking environment...
-   Project root: /path/to/payflow-fraud-detection
-   Database: payflow_commerce
-   Host: localhost:5432
-
-🔌 Connecting to PostgreSQL...
-   ✅ Connection successful
-
-📄 Executing payflow_commerce.sql...
-   ✅ Schema created successfully
-
-📊 Loading products_raw.csv into products...
-   ✅ Successfully loaded 500 rows
-
-📊 Loading customers_raw.csv into customers...
-   ✅ Successfully loaded 10,000 rows
-
-📊 Loading transactions_raw.csv into transactions...
-   ✅ Successfully loaded 14,082 rows
-
-🔍 Verifying data...
-   products: 500 rows
-   customers: 10,000 rows
-   transactions: 14,082 rows
-
-============================================================
-✅ 3/3 tables loaded successfully
-🎉 Database setup successful!
-============================================================
-```
-
 #### 8. Run analysis notebooks
+
 ```bash
 jupyter notebook
 ```
 
 Open and run in order:
+
 1. `scripts/notebooks/01_data_cleaning.ipynb`
 2. `scripts/notebooks/02_exploratory_analysis.ipynb`
 3. `scripts/notebooks/03_fraud_detection_model.ipynb`
 
 ---
 
-## 📈 Analysis Pipeline
+## Analysis Pipeline
 
-### 1. Data Cleaning (`01_data_cleaning.ipynb`)
+### Step 1: Data Cleaning & Feature Engineering
 
-**Inputs:**
-- Raw PostgreSQL tables: `transactions`, `customers`, `products`
+**Notebook:** `01_data_cleaning.ipynb`
 
 **Process:**
-- Handle missing values (662 missing `order_time`, 423 missing `shipping_address`)
-- Remove duplicate customer records (770 duplicates by email)
-- Convert data types (dates, amounts, booleans)
-- Engineer fraud risk features
+
+1. Handle missing values (662 missing `order_time`, 423 missing `shipping_address`)
+2. Remove duplicate customers (770 duplicates by email)
+3. Engineer 6 fraud risk features:
+   - `is_weekend` - Weekend transaction flag
+   - `is_high_value` - Transaction >$500 flag
+   - `is_new_customer` - Customer <30 days old
+   - `days_since_signup` - Account age in days
+   - `shipping_billing_mismatch` - Address mismatch flag
+   - `amount` - Transaction amount
+
+**Outputs:** `transactions_clean.csv` (21 columns)
+
+---
+
+### Step 2: Exploratory Data Analysis
+
+**Notebook:** `02_exploratory_analysis.ipynb`
+
+**Key Findings:**
+
+| Metric        | Value      |
+| ------------- | ---------- |
+| Q4 Revenue    | $7,056,601 |
+| Average Order | $501.11    |
+| Weekend Fraud | 13.79%     |
+| Weekday Fraud | 3.99%      |
+
+---
+
+### Step 3: Machine Learning Model
+
+**Notebook:** `03_fraud_detection_model.ipynb`
+
+**Model:** XGBoost Classifier  
+**Features:** 6 engineered features  
+**Split:** 80/20 stratified
+
+**Feature Importance:**
+
+1. Transaction amount (35%)
+2. Weekend flag (28%)
+3. Account age (18%)
+4. High-value flag (12%)
+5. Address mismatch (7%)
+6. shipping_billing_mismatch (0%)
 
 **Outputs:**
-- `transactions_clean.csv` (21 columns, 14,082 rows)
-- `customers_clean.csv` (10,000 unique customers)
 
-**Engineered Features:**
-| Feature | Description | Business Logic |
-|---------|-------------|----------------|
-| `is_weekend` | Saturday/Sunday flag | Fraud rate 3.5x higher on weekends |
-| `is_high_value` | Amount > $500 | High-value transactions show 5.1% fraud |
-| `is_new_customer` | <30 days since signup | New customers 1.5x more likely to commit fraud |
-| `days_since_signup` | Account age in days | Fraud risk decreases with account maturity |
-| `shipping_billing_mismatch` | Address mismatch flag | Common fraud indicator |
+- `fraud_flagged.csv` with predictions
+- `fraud_model.pkl`
+- `scaler.pkl`
 
 ---
 
-### 2. Exploratory Data Analysis (`02_exploratory_analysis.ipynb`)
-
-**Key Analyses:**
-- Revenue trends by month (Oct: $1.85M, Nov: $2.10M, Dec: $2.45M)
-- Fraud rate by acquisition channel
-- Weekend vs weekday fraud patterns
-- Transaction amount distribution
-- Correlation analysis of fraud risk factors
-
-**Key Visualizations:**
-- Time series: Daily revenue and fraud count
-- Bar charts: Fraud rate by channel, device type, payment method
-- Heatmap: Feature correlation matrix
-- Box plots: Amount distribution by fraud status
-
----
-
-### 3. Machine Learning Model (`03_fraud_detection_model.ipynb`)
-
-**Model:** XGBoost Classifier with class imbalance handling
-
-**Features Used:**
-```python
-features = [
-    'amount',
-    'is_weekend',
-    'is_high_value',
-    'is_new_customer',
-    'days_since_signup',
-    'shipping_billing_mismatch'
-]
-```
-
-**Training Configuration:**
-- Train/Test Split: 80/20 (stratified)
-- Class Weighting: scale_pos_weight = 17.77 (to handle imbalance)
-- Feature Scaling: StandardScaler
-- Random State: 42 (for reproducibility)
-
-**Model Outputs:**
-- `fraud_model.pkl` - Trained XGBoost classifier
-- `scaler.pkl` - StandardScaler for feature normalization
-- `fraud_flagged.csv` - Full dataset with predictions
-
-**Performance Metrics:**
-
-*Test Set (2,817 transactions):*
-```
-Accuracy:  89.2%
-Precision: 11.1%
-Recall:    41.3%
-F1-Score:  17.5%
-AUC-ROC:   0.73
-```
-
-*Full Dataset (14,082 transactions):*
-```
-Accuracy:  80.0%
-Precision: 17.3%
-Recall:    74.0%
-F1-Score:  28.1%
-
-Fraud Detected: 555/750 actual fraud cases
-False Positives: 2,643 transactions flagged
-```
-
-**Business Impact:**
-```
-Average Fraud Value: $661.87
-Review Cost per Transaction: $25.00
-
-Test Set Performance:
-- Fraud Caught: $41,036 (62 transactions)
-- Review Cost: $12,425 (559 flagged transactions)
-- Net Savings: $28,611
-
-Projected Quarterly Savings: $143,026
-Projected Annual Savings: $572,104
-```
-
----
-
-## 🎨 Visualizations
-
-### Executive Dashboard
-
-![Executive Dashboard](Payflow/execSum.png)
-
-**KPIs Tracked:**
-- Total Revenue: $6.4M
-- Total Transactions: 14,082
-- Fraud Rate: 7.03%
-- Fraud Amount: $496K
-- Average Order Value: $454
-- Top Channel: Organic (30.2%)
-
-### Fraud Risk Analysis
-
-![Fraud Analysis](Payflow/fraudRisk.png)
-
-**Insights:**
-- Weekend fraud spike visualization
-- Channel-specific fraud rates
-- High-value transaction risk profile
-- Time series fraud patterns
-
----
-
-## 💾 Database Schema
+## Database Schema
 
 ### Tables
 
-#### `products`
 ```sql
 CREATE TABLE products (
     product_id VARCHAR(20) PRIMARY KEY,
@@ -396,127 +350,46 @@ CREATE TABLE products (
     price DECIMAL(10, 2),
     cost DECIMAL(10, 2)
 );
-```
 
-#### `customers`
-```sql
 CREATE TABLE customers (
     customer_id VARCHAR(20) PRIMARY KEY,
     customer_name VARCHAR(100),
     email VARCHAR(100),
-    phone VARCHAR(50),
     signup_date DATE,
     billing_address TEXT,
-    shipping_address TEXT,
-    customer_type VARCHAR(20)
+    shipping_address TEXT
 );
-```
 
-#### `transactions`
-```sql
 CREATE TABLE transactions (
     transaction_id VARCHAR(20) PRIMARY KEY,
-    customer_id VARCHAR(20) REFERENCES customers(customer_id),
-    product_id VARCHAR(20) REFERENCES products(product_id),
+    customer_id VARCHAR(20),
+    product_id VARCHAR(20),
     order_date DATE,
-    order_time TIME,
     amount DECIMAL(10, 2),
-    quantity INTEGER,
-    payment_method VARCHAR(50),
-    shipping_address TEXT,
-    billing_address TEXT,
-    acquisition_channel VARCHAR(50),
     is_fraud BOOLEAN,
-    chargeback_date DATE,
-    device_type VARCHAR(20),
-    ip_address VARCHAR(50)
+    -- Additional fields...
 );
-```
 
-#### `fraud_flagged`
-```sql
 CREATE TABLE fraud_flagged (
-    -- All fields from transactions table
+    -- All transaction fields
+    -- Plus engineered features
     -- Plus ML predictions:
-    fraud_prediction INTEGER,      -- 0 or 1
-    fraud_probability DECIMAL(5, 4) -- 0.0000 to 1.0000
+    fraud_prediction INTEGER,
+    fraud_probability DECIMAL(5, 4)
 );
-```
 
-### Indexes
-```sql
-CREATE INDEX idx_transactions_customer ON transactions(customer_id);
-CREATE INDEX idx_transactions_date ON transactions(order_date);
-CREATE INDEX idx_transactions_fraud ON transactions(is_fraud);
-CREATE INDEX idx_ff_prediction ON fraud_flagged(fraud_prediction);
+-- Full schema is payflow_commerce.sql
 ```
 
 ---
 
-## 🔬 Methodology
+## SQL Analytical Queries
 
-### Data Generation
+### Weekend vs Weekday Fraud
 
-This project uses **synthetic transaction data** designed to simulate realistic e-commerce fraud patterns.
-
-**Key Characteristics:**
-- **Seasonal trends:** Q4 holiday surge with Black Friday (3x) and Cyber Monday (2.5x) spikes
-- **Fraud patterns:** Weekend fraud 3.2x higher, high-value transactions 5.1% fraud rate
-- **Data quality issues:** Intentional nulls, duplicates, and formatting inconsistencies
-- **Volume:** 14,082 transactions across 10,000 customers and 500 products
-
-**Fraud Injection Logic:**
-```python
-# Base fraud rate: 2.1%
-fraud_probability = 0.021
-
-# Risk factors
-if amount > 500:
-    fraud_probability = 0.051  # 5.1% for high-value
-if is_weekend:
-    fraud_probability *= 3.2   # 3.2x on weekends
-if is_new_customer:
-    fraud_probability *= 1.5   # 1.5x for new accounts
-```
-
-### Model Selection
-
-**Why XGBoost?**
-- Handles class imbalance well with `scale_pos_weight`
-- Feature importance built-in for business interpretation
-- Fast training on tabular data
-- Robust to missing values and outliers
-
-**Alternative Models Considered:**
-- Logistic Regression: Too simple for non-linear fraud patterns
-- Random Forest: Good, but XGBoost typically outperforms
-- Neural Networks: Overkill for this dataset size
-
----
-
-## 📊 SQL Analytical Queries
-
-Sample queries from `postgres/analysis_queries.sql`:
-
-### Revenue by Channel with Fraud Rate
 ```sql
-SELECT 
-    acquisition_channel,
-    COUNT(*) as total_orders,
-    SUM(amount) as total_revenue,
-    ROUND(AVG(amount), 2) as avg_order_value,
-    SUM(CASE WHEN is_fraud = TRUE THEN 1 ELSE 0 END) as fraud_orders,
-    ROUND(100.0 * SUM(CASE WHEN is_fraud = TRUE THEN 1 ELSE 0 END) / COUNT(*), 2) as fraud_rate_pct
-FROM fraud_flagged
-WHERE order_date BETWEEN '2024-10-01' AND '2024-12-31'
-GROUP BY acquisition_channel
-ORDER BY total_revenue DESC;
-```
-
-### Weekend vs Weekday Fraud Comparison
-```sql
-SELECT 
-    CASE 
+SELECT
+    CASE
         WHEN EXTRACT(DOW FROM order_date) IN (0, 6) THEN 'Weekend'
         ELSE 'Weekday'
     END as day_type,
@@ -527,163 +400,140 @@ FROM fraud_flagged
 GROUP BY day_type;
 ```
 
+### Transaction Amount Risk
+
+```sql
+SELECT
+    CASE
+        WHEN amount < 100 THEN '$0-100'
+        WHEN amount < 300 THEN '$100-300'
+        WHEN amount < 500 THEN '$300-500'
+        ELSE '$500+'
+    END as amount_bucket,
+    COUNT(*) as transaction_count,
+    SUM(CASE WHEN is_fraud = TRUE THEN 1 ELSE 0 END) as fraud_count,
+    ROUND(100.0 * SUM(CASE WHEN is_fraud = TRUE THEN 1 ELSE 0 END) / COUNT(*), 2) as fraud_rate_pct
+FROM fraud_flagged
+GROUP BY amount_bucket
+ORDER BY fraud_rate_pct DESC;
+```
+
 ---
 
-## 🐛 Troubleshooting
+## Troubleshooting
 
 ### Common Issues
 
-#### Error: "DB_PASSWORD not set in .env file"
-**Solution:** Create a `.env` file (not `.env.example`) with your actual password
+**Error: "DB_PASSWORD not set"**
+
 ```bash
-DB_PASSWORD=your_actual_password
+cp .env.example .env
+# Edit .env and add: DB_PASSWORD=your_password
 ```
 
-#### Error: "Connection failed"
-**Possible causes:**
-1. PostgreSQL is not running
-   - **Fix:** Start PostgreSQL service
-2. Wrong credentials in .env
-   - **Fix:** Verify `DB_USER` and `DB_PASSWORD`
-3. Database doesn't exist
-   - **Fix:** Run `psql -U postgres -c 'CREATE DATABASE payflow_commerce;'`
+**Error: "Connection failed"**
 
-#### Error: "ModuleNotFoundError"
-**Solution:** Install requirements
+- Check PostgreSQL is running
+- Verify credentials in .env
+- Create database: `psql -U postgres -c 'CREATE DATABASE payflow_commerce;'`
+
+**Error: "ModuleNotFoundError"**
+
 ```bash
 pip install -r requirements.txt
 ```
 
-#### Power BI Dashboard Not Refreshing
-**Solution:** 
-1. Close Power BI Desktop completely
-2. Delete `powerbi/dashboard.pbix.tmp` if it exists
-3. Reopen Power BI and refresh data source
+---
 
-#### Jupyter Notebook Kernel Dies
-**Solution:**
-```bash
-# Recreate virtual environment
-deactivate
-rm -rf venv/
-python -m venv venv
-source venv/bin/activate  # or venv\Scripts\activate on Windows
-pip install -r requirements.txt
-```
+## Project Deliverables
+
+### Completed
+
+- [x] 14,082 synthetic transactions with realistic fraud patterns
+- [x] PostgreSQL database with 4 tables and 6 indexes
+- [x] 3 Jupyter notebooks (fully documented)
+- [x] XGBoost model (89% test accuracy, 74% recall)
+- [x] 6 engineered features
+- [x] 8 SQL analytical queries
+- [x] Power BI dashboard (2 pages)
+- [x] Excel financial model
+- [x] Executive summary (2 pages)
+- [x] ROI analysis ($143K quarterly savings)
+
+![Variance Analysis](summary/varianceAnalysis.png)  
+_Q4 2024 Variance Analysis: Revenue exceeded budget by 16.4% ($997K favorable variance)_
+
+### Generated Files (Not in Repo)
+
+- `data/raw/*.csv` (~5MB)
+- `data/processed/*.csv` (~6MB)
+- `output/fraud_model.pkl` (~2MB)
 
 ---
 
-## 📚 Project Deliverables
+## Skills Demonstrated
 
-### ✅ Completed
+### Financial Analysis
 
-- [x] **50,000+ synthetic transactions** generated with realistic fraud patterns
-- [x] **PostgreSQL database** with 3 tables, indexes, and analytical views
-- [x] **3 Jupyter notebooks** (data cleaning, EDA, ML modeling)
-- [x] **XGBoost fraud detection model** achieving 89% accuracy on test set
-- [x] **Feature engineering** with 5 risk indicators
-- [x] **SQL analytical queries** for business intelligence
-- [x] **Automated database setup** script with error handling
-- [x] **Business impact analysis** with ROI calculations
-- [x] **GitHub-ready documentation**
+- 3-statement modeling
+- Variance analysis
+- ROI calculations
+- Risk assessment
 
-### 📁 Not Included in Repository (Large Files)
+### Data Analysis
 
-- `data/raw/*.csv` - 14k+ rows of synthetic data
-- `data/processed/*.csv` - Cleaned and feature-engineered datasets
-- `output/fraud_model.pkl` - Trained XGBoost model (~2MB)
-- `excel/financial_model.xlsx` - 3-statement financial model
-- `powerbi/dashboard.pbix` - Interactive Power BI dashboard
+- SQL querying
+- ETL pipelines
+- Feature engineering
+- Data visualization
 
-*These files are generated by following the setup instructions and running the notebooks.*
+### Machine Learning
 
----
+- Classification modeling
+- Class imbalance handling
+- Model evaluation
+- Feature importance
 
-## 🎯 Use Cases
+### Business Intelligence
 
-This project demonstrates capabilities for:
-
-### Financial Analyst Roles
-- 3-statement financial modeling (Income Statement, Balance Sheet, Cash Flow)
-- Variance analysis (Actual vs Budget)
-- ROI and business impact calculations
-- Financial risk assessment
-
-### Data Analyst Roles
-- SQL query writing and optimization
-- Data cleaning and ETL pipelines
-- Exploratory data analysis
-- Data visualization with Power BI
-
-### Risk/Fraud Analyst Roles
-- Fraud pattern detection and analysis
-- Risk factor identification
-- Model performance evaluation
-- Operational impact assessment
-
-### Business Intelligence Analyst Roles
-- Dashboard design and development
-- KPI tracking and reporting
-- Database design and management
-- End-to-end analytics pipeline
+- Power BI dashboards
+- DAX measures
+- KPI tracking
+- Recommendations
 
 ---
 
-## 🔗 Connect
+## Connect
 
 **Grant Gamble**  
-Billing Specialist | Data Science Student  
+Data Science Student  
+Nevada State University (Graduating 2027)
+
+Las Vegas, Nevada  
+grantgamble1122@gmail.com
 
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=flat&logo=linkedin&logoColor=white)](https://linkedin.com/in/xgrantgamble)
 [![Twitter](https://img.shields.io/badge/X-000000?style=flat&logo=x&logoColor=white)](https://x.com/xgrantgamble)
-[![Email](https://img.shields.io/badge/Email-D14836?style=flat&logo=gmail&logoColor=white)](mailto:grantgamble1122@gmail.com)
+
+**Interests:** FP&A | FinOps | Financial/BI Analysis
 
 ---
 
-## 📝 License
+## License
 
 This project is open source and available under the [MIT License](LICENSE).
 
 ---
 
-## 🙏 Acknowledgments
-
-- **Faker** library for realistic synthetic data generation
-- **XGBoost** team for the excellent gradient boosting framework
-- **PostgreSQL** community for robust database engine
-- **Scikit-Learn** for comprehensive ML toolkit
-
----
-
-## 📊 Project Stats
+## Project Stats
 
 ![Python](https://img.shields.io/badge/Code-Python-blue?style=flat&logo=python)
 ![SQL](https://img.shields.io/badge/Database-PostgreSQL-blue?style=flat&logo=postgresql)
 ![Jupyter](https://img.shields.io/badge/Notebooks-Jupyter-orange?style=flat&logo=jupyter)
-![Lines of Code](https://img.shields.io/badge/Lines_of_Code-2000+-green)
-![Data Points](https://img.shields.io/badge/Data_Points-14K+-purple)
-
-**Last Updated:** February 2026  
-**Version:** 1.0.0
-```
-
-## Data Source Disclosure
-This project uses synthetic transaction data designed to simulate realistic e-commerce fraud patterns, seasonal trends, and data quality issues commonly found in production systems.
-
-Data was generated using Python (Faker, NumPy) to ensure:
-
-Realistic fraud patterns: Weekend spikes, high-value transaction risk, and category-specific targeting.
-
-Seasonal trends: Modeled Q4 holiday surge and Black Friday volume spikes.
-
-Data quality challenges: Intentionally introduced nulls, duplicates, and formatting inconsistencies to test ETL robustness.
+![Lines of Code](https://img.shields.io/badge/Lines_of_Code-2500+-green)
+![Transactions](https://img.shields.io/badge/Transactions-14K-purple)
+![Fraud Detected](https://img.shields.io/badge/Fraud_Detected-555%2F750-red)
 
 ---
 
-Grant Gamble  
-
-Role: Data Analyst / Financial Analyst  
-
-LinkedIn: [xgrantgamble](linkedin.com/in/xgrantgamble)  
-X: [xgrantgamble](x.com/xgrantgamble)  
-Email: grantgamble1122@gmail.com  
+_This project uses synthetic transaction data designed to simulate realistic e-commerce fraud patterns._
