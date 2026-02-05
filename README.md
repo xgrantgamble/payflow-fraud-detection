@@ -8,7 +8,7 @@
 
 **End-to-end fraud detection system combining financial modeling, machine learning, and business intelligence to identify fraud patterns and reduce losses by $143K quarterly**
 
-![PayFlow Commerce Dashboard](summary\execDashboard.png)  
+![PayFlow Commerce Dashboard](summary/execDashboard.png)  
 _Interactive Power BI dashboard showing Q4 2024 performance metrics_
 
 ---
