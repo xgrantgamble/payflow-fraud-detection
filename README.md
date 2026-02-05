@@ -6,7 +6,7 @@
 ![XGBoost](https://img.shields.io/badge/XGBoost-2.0.3-red)
 ![Status](https://img.shields.io/badge/Status-Complete-green)
 
-> **End-to-end fraud detection system combining financial modeling, machine learning, and business intelligence to identify fraud patterns and reduce losses by $143K quarterly**
+**End-to-end fraud detection system combining financial modeling, machine learning, and business intelligence to identify fraud patterns and reduce losses by $143K quarterly**
 
 ![PayFlow Commerce Dashboard](summary\execDashboard.png)  
 _Interactive Power BI dashboard showing Q4 2024 performance metrics_
